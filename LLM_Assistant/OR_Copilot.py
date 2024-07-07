@@ -2,6 +2,7 @@ from langchain_openai import ChatOpenAI
 from LLM import url, key
 from simopt.directory import problem_directory, model_introduction_directory, problem_unabbreviated_directory, solver_introduction_directory, solver_directory, solver_unabbreviated_directory, model_directory, model_unabbreviated_directory, model_problem_unabbreviated_directory, model_problem_class_directory
 from simopt.experiment_base import ProblemSolver, ProblemsSolvers, post_normalize, find_missing_experiments, make_full_metaexperiment, plot_progress_curves, plot_solvability_cdfs, plot_area_scatterplots, plot_solvability_profiles, plot_terminal_progress, plot_terminal_scatterplots
+from langchain_core.prompts import PromptTemplate
 
 llm = ChatOpenAI(
     model='deepseek-chat',
@@ -10,10 +11,11 @@ llm = ChatOpenAI(
     max_tokens=1024
 )
 
-from langchain_core.prompts import PromptTemplate
+
 user_prompt_of_introduction = PromptTemplate.from_template("You choose {problem} based on {model} model, which is {model_introduction}")
 llm_prompt_of_introduction = PromptTemplate.from_template("The user choose {problem} based on {model} model, which is {model_introduction}")
-problem_setting_prompt = PromptTemplate.from_template("The setting of {problem} is:\n")
+problem_setting_prompt = PromptTemplate.from_template("The parameters of {problem} is:\n")
+solver_setting_prompt = PromptTemplate.from_template("The parameters of {solver} is:\n")
 prompt_of_methods_introduction = PromptTemplate.from_template("Please choose one method to solve the problem: {problem_choice}\n Followed with their introduction:\n")
 
 def get_problem_introduction(problem_name="Min Deterministic Function + Noise (SUCG)"):
@@ -41,3 +43,12 @@ def get_methods_list_and_introduction():
         solver_introduction = solver_introduction_directory[solver] + "\n"
         llm_method_introduction += solver_introduction
     return llm_method_introduction
+
+
+def get_methods_parameters(method="ASTRO-DF (SBCN)"):
+    solver_class = solver_unabbreviated_directory[method]
+    solver = solver_class()
+    specifications = solver.specifications
+    solver_parameters_setting = solver_setting_prompt.format(solver=method)
+    solver_parameters_setting += str(specifications)
+    return solver_parameters_setting
