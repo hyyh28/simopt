@@ -11,6 +11,7 @@ __pycache__/
 # Environments
 .env
 .venv
+.idea
 
 # Documentation build
 docs/_build/**
@@ -22,3 +23,6 @@ docs/_build/**
 experiments/logs/
 experiments/outputs/
 experiments/plots/
+
+# LLM setting
+LLM_Assistant

@@ -199,3 +199,24 @@ model_problem_class_directory: dict[str, "Model"] = {
     "Min Total Cost for Communication Networks System (SDCN)": Network,
     "Min Total Departed Visitors for Amusement Park (SDDN)": AmusementPark,
 }
+
+model_introduction_directory: dict[str, str] = {
+    "EXAMPLE": "A model that is a deterministic function evaluated with noise.",
+    "CNTNEWS": "A model that simulates a day's worth of sales for a newsvendor with a Burr Type XII demand distribution. Returns the profit, after accounting for order costs and salvage.",
+    "MM1": "    A model that simulates an M/M/1 queue with an Exponential(lambda) interarrival time distribution and an Exponential(x) service time distribution. Returns - the average sojourn time- the average waiting time- the fraction of customers who wait for customers after a warmup period.",
+    "FACSIZE": "A model that simulates a facilitysize problem with a multi-variate normal distribution. Returns the probability of violating demand in each scenario.",
+    "RMITD": "A model that simulates a multi-stage revenue management system with inter-temporal dependence. Returns the total revenue.",
+    "SSCONT": "A model that simulates multiple periods' worth of sales for a (s,S) inventory problem with continuous inventory, exponentially distributed demand, and poisson distributed lead time. Returns the various types of average costs per period, order rate, stockout rate, fraction of demand met with inventory on hand, average amount backordered given a stockout occured, and average amount ordered given an order occured.",
+    "IRONORE": "A model that simulates multiple periods of production and sales for an inventory problem with stochastic price determined by a mean-reverting random walk. Returns total profit, fraction of days producing iron, and mean stock.",
+    "DYNAMNEWS": "A model that simulates a day's worth of sales for a newsvendor with dynamic consumer substitution. Returns the profit and the number of products that stock out.",
+    "DUALSOURCING": "A model that simulates multiple periods of ordering and sales for a single-staged, dual sourcing inventory problem with stochastic demand. Returns average holding cost, average penalty cost, and average ordering cost per period.",
+    "CONTAM": "A model that simulates a contamination problem with a beta distribution. Returns the probability of violating contamination upper limit in each level of supply chain.",
+    "CHESS": "A model that simulates a matchmaking problem with a Elo (truncated normal) distribution of players and Poisson arrivals. Returns the average difference between matched players.",
+    "SAN": "A model that simulates a stochastic activity network problem with tasks that have exponentially distributed durations, and the selected means come with a cost.",
+    "HOTEL": "A model that simulates business of a hotel with Poisson arrival rate.",
+    "TABLEALLOCATION": "A model that simulates a table capacity allocation problem at a restaurant with a homogenous Poisson arrvial process and exponential service times. Returns expected maximum revenue.",
+    "PARAMESTI": "A model that simulates MLE estimation for the parameters of a two-dimensional gamma distribution.",
+    "FIXEDSAN": "A model that simulates a stochastic activity network problem with tasks that have exponentially distributed durations, and the selected means come with a cost.",
+    "NETWORK": "Simulate messages being processed in a queueing network.",
+    "AMUSEMENTPARK": "    A model that simulates a single day of operation for an amusement park queuing problem based on a poisson distributed tourist arrival rate, a next attraction transition matrix, and attraction durations based on an Erlang distribution. Returns the total number and percent of tourists to leave the park due to full queues.",
+}
