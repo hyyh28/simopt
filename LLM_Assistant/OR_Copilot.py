@@ -52,7 +52,9 @@ class ORCopilot(object):
         self.current_problem_setting = None
         self.current_problem_introduction = None
         self.current_solver = None
+        self.current_solver_parameters = None
         self.current_recommand_solver = None
+        self.simopt_sandbox = None
 
     def get_problem(self, problem_name="Min Deterministic Function + Noise (SUCG)"):
         self.current_problem_name = problem_name
@@ -61,6 +63,11 @@ class ORCopilot(object):
 
     def get_solver(self, method="ASTRO-DF (SBCN)"):
         self.current_solver = method
+        self.current_solver_parameters = get_methods_parameters(method=self.current_solver)
+
+    def build_simopt_sandbox(self):
+        if self.current_problem_name is None or self.current_solver is None:
+            return
 
     def give_recommand_solver(self):
         pass
