@@ -1,2 +1,0 @@
-key = "XXX"
-url = "XXXX"
