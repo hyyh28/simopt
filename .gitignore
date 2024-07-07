@@ -25,4 +25,5 @@ experiments/outputs/
 experiments/plots/
 
 # LLM setting
-LLM_Assistant
+*.py
+LLM_Assistant/LLM.py
