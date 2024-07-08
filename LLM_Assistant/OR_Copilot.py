@@ -45,15 +45,16 @@ def get_methods_parameters(method="ASTRO-DF (SBCN)"):
     solver_parameters_setting += str(specifications)
     return solver_parameters_setting
 
+
 class ORCopilot(object):
     def __init__(self, llm_key=key, llm_url=url, max_tokens=1024):
-        self.llm = ChatOpenAI(model='deepseek-chat', openai_api_key=key, openai_api_base=url, max_tokens=max_tokens)
+        self.llm = ChatOpenAI(model='deepseek-chat', openai_api_key=key, openai_api_base=llm_url, max_tokens=max_tokens)
         self.current_problem_name = None
         self.current_problem_setting = None
         self.current_problem_introduction = None
         self.current_solver = None
         self.current_solver_parameters = None
-        self.current_recommand_solver = None
+        self.current_recommend_solver = None
         self.simopt_sandbox = None
 
     def get_problem(self, problem_name="Min Deterministic Function + Noise (SUCG)"):
@@ -67,13 +68,48 @@ class ORCopilot(object):
 
     def build_simopt_sandbox(self):
         if self.current_problem_name is None or self.current_solver is None:
+            print("Please set both problem and solver before building the sandbox.")
             return
 
-    def give_recommand_solver(self):
-        pass
+        problem_class = problem_unabbreviated_directory[self.current_problem_name]
+        solver_class = solver_unabbreviated_directory[self.current_solver]
 
-    def give_recommand_solver_parameter(self):
-        pass
+        problem_instance = problem_class()
+        solver_instance = solver_class()
 
+        self.simopt_sandbox = ProblemSolver(problem_instance, solver_instance)
 
+    def give_recommend_solver(self):
+        if self.current_problem_introduction is None or self.current_problem_setting is None:
+            print("Please set the problem before getting solver recommendations.")
+            return
 
+        solvers = list(solver_introduction_directory.keys())
+        prompt = (self.current_problem_introduction[1] + "\n" +
+                  self.current_problem_setting + "\n" +
+                  "Choose a solver from the following list:\n" + str(solvers))
+
+        response = self.llm(prompt)
+
+        if response in solvers:
+            self.current_recommend_solver = response
+        else:
+            print("The response from the model was not a valid solver.")
+
+    def give_recommend_solver_parameter(self):
+        if self.current_solver is None or self.current_problem_introduction is None or self.current_problem_setting is None:
+            print("Please set the problem and solver before getting solver parameter recommendations.")
+            return
+
+        parameters = get_methods_parameters(self.current_solver)
+        prompt = (self.current_problem_introduction[1] + "\n" +
+                  self.current_problem_setting + "\n" +
+                  "Solver chosen: " + self.current_solver + "\n" +
+                  "Recommend the best parameters from the following options:\n" + parameters)
+
+        response = self.llm(prompt)
+
+        if response:
+            self.current_solver_parameters = response
+        else:
+            print("The model did not provide a valid parameter set.")
